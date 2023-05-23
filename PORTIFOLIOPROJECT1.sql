@@ -1,55 +1,55 @@
 select * 
-from PortifolioProject..[dbo.TotalCases]
+from PortfolioProject..[dbo.TotalCases]
 order by 1,2
 
 
 select * 
-from PortifolioProject..[dbo.TotalDeaths]
+from PortfolioProject..[dbo.TotalDeaths]
 order by 1,2
 
 
 --Seleceting data that we're going to use
 
 select date, world, Africa, Asia, Europe
-from PortifolioProject..[dbo.TotalCases]
+from PortfolioProject..[dbo.TotalCases]
 order by 1,2
 
 
 select date, world, Africa, Asia, Europe
-from PortifolioProject..[dbo.TotalDeaths]
+from PortfoloProject..[dbo.TotalDeaths]
 order by 1,2
 
 --Looking at what percentages of infections and death
 --Percentages of infections
 
 select date, world, Africa, (Africa/world)*100 as AfricanCasesPercentage
-from PortifolioProject..[dbo.TotalCases]
+from PortfolioProject..[dbo.TotalCases]
 order by AfricanCasesPercentage asc
 
 
 select date, world, Asia, (Asia/world)*100 as AsianCasesPercentage
-from PortifolioProject..[dbo.TotalCases]
+from PortfolioProject..[dbo.TotalCases]
 order by AsianCasesPercentage asc
 
 
 select date, world, Europe, (Europe/world)*100 as EuropeanCasesPercentage
-from PortifolioProject..[dbo.TotalCases]
+from PortfolioProject..[dbo.TotalCases]
 order by EuropeanCasesPercentage asc
 
 --Percentages of deaths
 
 select date, world, Africa, (Africa/world)*100 as AfricanDeathPercentage 
-from PortifolioProject..[dbo.TotalDeaths]
+from PortfolioProject..[dbo.TotalDeaths]
 order by AfricanDeathPercentage asc
 
 
 select date, world, Asia, (Asia/world)*100 as AsianDeathPercentage 
-from PortifolioProject..[dbo.TotalDeaths]
+from PortfolioProject..[dbo.TotalDeaths]
 order by AsianDeathPercentage asc
 
 
 select date, world, Europe, (Europe/world)*100 as EuropeanDeathPercentage 
-from PortifolioProject..[dbo.TotalDeaths]
+from PortfolioProject..[dbo.TotalDeaths]
 order by EuropeanDeathPercentage asc
 
 
@@ -57,14 +57,14 @@ order by EuropeanDeathPercentage asc
 --Joining TotalCases+TotalDeaths
 
 select *
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on Tcases.date = TDeaths.date 
 order by 1,2
 
 select TCases.date, TCases.world, TDeaths.world, (TDeaths.world/TCases.world)*100 as WorldDeathPercentage
-from PortifolioProject..[dbo.TotalCases]  Tcases
-join PortifolioProject..[dbo.TotalDeaths]  TDeaths
+from PortfolioProject..[dbo.TotalCases]  Tcases
+join PortfolioProject..[dbo.TotalDeaths]  TDeaths
 on TCases.date = TDeaths.date 
 order by WorldDeathPercentage desc  
 
@@ -72,8 +72,8 @@ order by WorldDeathPercentage desc
 
 select TCases.date, TDeaths.world
 , sum(cast(TDeaths.world as int)) over (Partition by TCases.world) as RollingWorldDeaths
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.world >= 1
 --order by 3,4
@@ -86,8 +86,8 @@ as
 select TCases.date, TCases.world
 , sum(convert(int,TDeaths.world)) over (Partition by TCases.world) as RollingWorldDeaths
 --, (RollingWorldDeaths/TCases.world)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.world >= 1
 --order by 3,4
@@ -102,8 +102,8 @@ as
 select TCases.date, TCases.Africa
 , sum(convert(int,TDeaths.Africa)) over (Partition by TCases.Africa) as RollingAfricaDeaths
 --, (RollingAfricaDeaths/TCases.Africa)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Africa is not null
 --order by 3,4
@@ -118,8 +118,8 @@ as
 select TCases.date, TCases.Asia
 , sum(convert(int,TDeaths.Asia)) over (Partition by TCases.Asia) as RollingAsiaDeaths
 --, (RollingAsiaDeaths/TCases.Asia)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Asia is not null
 --order by 3,4
@@ -134,8 +134,8 @@ as
 select TCases.date, TCases.Europe
 , sum(convert(int,TDeaths.Europe)) over (Partition by TCases.Europe) as RollingEuropeDeaths
 --, (RollingEuropeDeaths/TCases.Europe)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Europe is not null
 --order by 3,4
@@ -157,8 +157,8 @@ create table #PercentAfricaCDs
 select TCases.date, TCases.Africa
 , sum(convert(int,TDeaths.Africa)) over (Partition by TCases.Africa) as RollingAfricaDeaths
 --, (RollingAfricaDeaths/TCases.Africa)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Africa is not null
 --order by 3,4
@@ -179,8 +179,8 @@ create table #PercentAsiaCDs
 select TCases.date, TCases.Asia
 , sum(convert(int,TDeaths.Asia)) over (Partition by TCases.Asia) as RollingAsiaDeaths
 --, (RollingAsiaDeaths/TCases.Asia)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Asia is not null
 --order by 3,4
@@ -201,8 +201,8 @@ create table #PercentEuropeCDs
 select TCases.date, TCases.Europe
 , sum(convert(int,TDeaths.Europe)) over (Partition by TCases.Europe) as RollingEuropeDeaths
 --, (RollingEuropeDeaths/TCases.Europe)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Europe is not null
 --order by 3,4
@@ -216,8 +216,8 @@ create view PercentAfricaCDs as
 select TCases.date, TCases.Africa
 , sum(convert(int,TDeaths.Africa)) over (Partition by TCases.Africa) as RollingAfricaDeaths
 --, (RollingAfricaDeaths/TCases.Africa)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Africa is not null
 --order by 3,4
@@ -228,8 +228,8 @@ create view PercentAsiaCDs as
 select TCases.date, TCases.Asia
 , sum(convert(int,TDeaths.Asia)) over (Partition by TCases.Asia) as RollingAsiaDeaths
 --, (RollingAsiaDeaths/TCases.Asia)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Asia is not null
 --order by 3,4
@@ -240,8 +240,8 @@ create view PercentEuropeCDs as
 select TCases.date, TCases.Europe
 , sum(convert(int,TDeaths.Europe)) over (Partition by TCases.Europe) as RollingEuropeDeaths
 --, (RollingEuropeDeaths/TCases.Europe)*100
-from PortifolioProject..[dbo.TotalCases] as TCases
-join PortifolioProject..[dbo.TotalDeaths] as TDeaths
+from PortfolioProject..[dbo.TotalCases] as TCases
+join PortfolioProject..[dbo.TotalDeaths] as TDeaths
 on TCases.date = TDeaths.date
 where TDeaths.Europe is not null
 --order by 3,4
