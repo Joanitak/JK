@@ -16,7 +16,7 @@ order by 1,2
 
 
 select date, world, Africa, Asia, Europe
-from PortfoloProject..[dbo.TotalDeaths]
+from PortfolioProject..[dbo.TotalDeaths]
 order by 1,2
 
 --Looking at what percentages of infections and death
